@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QueueLess - Student App</title>
+    <!-- Outfit Google Font -->
+    <link rel="stylesheet" href="css/styles.css">
+    <!-- QR Code Generator CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+</head>
+<body class="student-body">
+
+    <div class="mobile-frame">
+        <!-- Status Bar -->
+        <div class="status-bar">
+            <span id="statusBarTime">09:41</span>
+            <div class="icons">
+                <span>📶</span>
+                <span>🔋</span>
+            </div>
+        </div>
+
+        <!-- APP HEADER (Hidden during login) -->
+        <header class="app-header" id="appHeader" style="display: none;">
+            <div class="logo">⚡ <span>QueueLess</span></div>
+            <div class="usn-profile" id="userUsnDisplay">USN: 1RV21CS001</div>
+        </header>
+
+        <!-- STUDENT CONTENT SCROLLABLE AREA -->
+        <div class="student-content">
+
+            <!-- 1. LOGIN SCREEN -->
+            <div id="loginView" class="login-view">
+                <div class="logo-large">⚡ <span>QueueLess</span></div>
+                <p>College Smart Pre-ordering & Queue Buster</p>
+                
+                <div class="input-group">
+                    <label for="usnInput">College USN Number</label>
+                    <input type="text" id="usnInput" class="input-field" placeholder="e.g. 1RV21CS001" autocomplete="off" maxlength="10">
+                    <span style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">Enter your valid university registration code.</span>
+                </div>
+
+                <button id="loginBtn" class="btn btn-primary" style="width: 100%;">
+                    Access Pre-Ordering Portal
+                </button>
+            </div>
+
+            <!-- 2. DASHBOARD & MENU SCREEN -->
+            <div id="menuView" style="display: none; padding-bottom: 80px;">
+                <!-- Welcome greeting -->
+                <div class="welcome-section">
+                    <h1>Canteen Menu</h1>
+                    <p>Pre-order 10 minutes before the bell rings and skip the queue!</p>
+                </div>
+
+                <!-- Session Timeline status -->
+                <div class="status-timeline">
+                    <div class="timeline-card active" id="timeSlotInfoCard">
+                        <div class="header">
+                            <span class="title" id="slotTitle">Checking canteen status...</span>
+                            <span class="badge badge-primary" id="slotBadge">ACTIVE</span>
+                        </div>
+                        <span class="time" id="slotTime">-- : --</span>
+                        <div class="description" id="slotDescription">Please stand by...</div>
+                    </div>
+                </div>
+
+                <!-- Menu Explorer -->
+                <div class="menu-section">
+                    <div class="menu-section-header">
+                        <h2>Today's Specials</h2>
+                        <span class="badge badge-success" id="menuDateBadge">FRIDAY</span>
+                    </div>
+
+                    <div class="menu-grid" id="menuGridContainer">
+                        <!-- Dynamic items injected here -->
+                    </div>
+                </div>
+
+                <!-- Cart sticky footer -->
+                <div class="cart-sticky-bar" id="cartStickyBar" style="display: none;">
+                    <div class="info">
+                        <span class="total-price" id="cartTotalDisplay">₹0</span>
+                        <span class="item-count" id="cartCountDisplay">0 items selected</span>
+                    </div>
+                    <button id="checkoutBtn" class="btn btn-primary">
+                        Pre-Order Now ➡️
+                    </button>
+                </div>
+            </div>
+
+            <!-- 3. ORDER RECEIPT & QR SCREEN -->
+            <div id="orderView" style="display: none;" class="order-view">
+                <h2 style="font-weight: 800; font-size: 20px;">Order Placed successfully!</h2>
+                <p style="color: var(--text-muted); font-size: 14px; margin-top: 4px;">Flash this code at the canteen counter to verify.</p>
+
+                <div class="qr-container">
+                    <canvas id="qrCodeCanvas"></canvas>
+                    <div style="font-weight: 700; margin-top: 12px; font-size: 16px; color: var(--text);" id="orderIdText">QL-XXXXXX</div>
+                </div>
+
+                <div class="order-time-window" id="qrTimeLimitText">
+                    Collect before 11:00 AM
+                </div>
+
+                <div class="kitchen-card" style="width: 100%; border-radius: var(--radius-md); padding: 16px; margin-top: 24px; text-align: left;">
+                    <h3 style="font-size: 14px; margin-bottom: 8px;">Order Details</h3>
+                    <div id="orderItemsSummaryList" style="font-size: 13px; color: var(--text-muted); display:flex; flex-direction:column; gap:4px;">
+                        <!-- Item summary -->
+                    </div>
+                </div>
+
+                <!-- Live scan tracking indicator -->
+                <div style="margin-top: 20px; display: flex; align-items: center; gap: 8px; justify-content: center; font-size: 14px; font-weight: 600; color: var(--text-muted);">
+                    <span class="clock-icon">🔄</span> Awaiting counter scan...
+                </div>
+
+                <button id="cancelOrderBtn" class="btn btn-secondary" style="margin-top: 24px; width: 100%;">
+                    Cancel Pre-Order
+                </button>
+            </div>
+
+            <!-- 4. REDEEMED / SUCCESS STATE VIEW -->
+            <div id="successView" style="display: none;" class="order-view">
+                <div class="success-checkmark">
+                    <div class="checkmark">
+                        <svg class="checkmark__circle" cx="40" cy="40" r="38" fill="none"/>
+                        <path class="checkmark__check" fill="none" d="M23 40 l11 11 l22 -22"/>
+                    </div>
+                </div>
+
+                <h1 style="color: var(--success); font-weight: 800;">ORDER VERIFIED!</h1>
+                <p style="color: var(--text-muted); margin-top: 8px; max-width: 280px;">Payment received and order registered. Canteen staff is preparing your food. Enjoy!</p>
+                
+                <button id="newOrderBtn" class="btn btn-primary" style="margin-top: 32px; width: 100%;">
+                    Order Something Else
+                </button>
+            </div>
+
+        </div>
+
+        <!-- 5. PAYMENT SHEET DRAWER (Triggered by staff scan) -->
+        <div class="payment-sheet" id="paymentSheet">
+            <h3>💳 Complete Pre-Payment</h3>
+            <p style="color: var(--text-muted); font-size: 13px;">The canteen counter has scanned your QR. Please select payment to authorize collection.</p>
+            
+            <div id="paymentAmountDisplay" style="font-size: 24px; font-weight: 800; color: var(--primary); margin: 12px 0;">₹0.00</div>
+
+            <div class="payment-options">
+                <button class="payment-option-btn" onclick="processMockPayment('Google Pay')">
+                    <span>📱</span> UPI (Google Pay / PhonePe)
+                </button>
+                <button class="payment-option-btn" onclick="processMockPayment('Canteen Card')">
+                    <span>💳</span> Student ID Card Balance
+                </button>
+                <button class="payment-option-btn" onclick="processMockPayment('Cash')">
+                    <span>💵</span> Pay Cash on Pickup
+                </button>
+            </div>
+            
+            <div id="paymentLoading" style="display: none; text-align: center; padding: 12px 0;">
+                <span style="font-size: 14px; font-weight: 600; color: var(--primary);">Processing transaction... Do not close.</span>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Script imports -->
+    <script src="js/shared.js"></script>
+    <script src="js/student.js" defer></script>
+</body>
+</html>

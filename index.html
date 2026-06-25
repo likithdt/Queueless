@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QueueLess - College Canteen Pre-Ordering Portal</title>
+    <!-- CSS imports -->
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        .portal-body {
+            background-color: #F8FAFC;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        .portal-container {
+            max-width: 900px;
+            width: 100%;
+            background: #FFFFFF;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-xl);
+            padding: 48px;
+            box-shadow: var(--shadow-xl);
+            text-align: center;
+            animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .portal-title {
+            font-size: 42px;
+            font-weight: 800;
+            color: var(--text);
+            margin-bottom: 8px;
+            background: linear-gradient(45deg, var(--primary), #E85A27);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .portal-subtitle {
+            font-size: 16px;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto 40px auto;
+            line-height: 1.6;
+        }
+        .portal-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+            margin-bottom: 40px;
+        }
+        @media (max-width: 640px) {
+            .portal-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        .portal-card {
+            background: #FFFFFF;
+            border: 2px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 32px 24px;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            text-decoration: none;
+            color: inherit;
+        }
+        .portal-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-premium);
+        }
+        .portal-card .icon-circle {
+            width: 72px;
+            height: 72px;
+            background: var(--primary-light);
+            color: var(--primary);
+            font-size: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            transition: var(--transition);
+        }
+        .portal-card:hover .icon-circle {
+            background: var(--primary);
+            color: #FFFFFF;
+        }
+        .portal-card h3 {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--text);
+        }
+        .portal-card p {
+            font-size: 14px;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+        .instructions-card {
+            background: var(--primary-light);
+            border: 1px solid rgba(255, 107, 53, 0.15);
+            border-radius: var(--radius-md);
+            padding: 20px;
+            text-align: left;
+        }
+        .instructions-card h4 {
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 15px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .instructions-card ul {
+            padding-left: 20px;
+            font-size: 13px;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body class="portal-body">
+
+    <div class="portal-container">
+        <h1 class="portal-title">⚡ QueueLess</h1>
+        <p class="portal-subtitle">The Micro-Canteen Smart Pre-Ordering & Queue Buster System. Say goodbye to long college break queues and grab your food instantly.</p>
+
+        <div class="portal-grid">
+            <a href="student.html" target="_blank" class="portal-card">
+                <div class="icon-circle">📱</div>
+                <h3>Student Ordering App</h3>
+                <p>Log in with your USN number, browse the menu, pre-order food, and display your collection QR code.</p>
+            </a>
+
+            <a href="kitchen.html" target="_blank" class="portal-card">
+                <div class="icon-circle">🍳</div>
+                <h3>Canteen Kitchen Panel</h3>
+                <p>Manage the menu, view active pre-orders, and scan student codes with webcam scanner or virtual controls.</p>
+            </a>
+        </div>
+
+        <div class="instructions-card">
+            <h4>💡 How to Test the Sync Flow (Mockup Demonstration):</h4>
+            <ul>
+                <li>Open both portals in separate side-by-side browser tabs.</li>
+                <li>On the **Kitchen Panel**, log in using username <code>Admin</code> and password <code>Admin123</code>.</li>
+                <li>On the **Student App**, log in with any USN (e.g. <code>1RV21CS001</code>) and place an order.</li>
+                <li>Notice the preorder counter incrementing and playing a chime on the Kitchen Panel dashboard.</li>
+                <li>On the Kitchen Panel, click **"Virtual Scan"** on the order (or go to Scan tab and scan/enter code).</li>
+                <li>Look at the Student App: a **Payment Drawer** has automatically popped up! Choose a payment method.</li>
+                <li>Once paid, the Student App flashes a **Green Tick**, and the Kitchen Panel changes status to **SUCCESS** and displays the exact item list to serve.</li>
+                <li>Try scanning the same code again: the system flags it as **INVALID: Already Redeemed** to prevent double collection.</li>
+                <li>Use the floating **Time Widget** (bottom right) to simulate clock settings (e.g., test order timeouts outside break times).</li>
+            </ul>
+        </div>
+        
+        <p style="font-size: 12px; color: var(--text-light); margin-top: 30px;">QueueLess App Mockup • Built with Outfit Typography & Harmonious Light Mode design system.</p>
+    </div>
+
+</body>
+</html>
